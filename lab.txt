@@ -1,0 +1,528 @@
+sll 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int count = 0;
+
+struct node
+{
+    int sem, phno;
+    char name[20], branch[10], usn[20];
+    struct node *next;
+} *first = NULL, *last = NULL, *temp = NULL, *temp1;
+void create()
+{
+    int sem, phno;
+    char name[20], branch[10], usn[20];
+    temp = (struct node *)malloc(sizeof(struct node));
+    printf("\n Enter usn,name, branch, sem, phno of student : ");
+    scanf("%s %s %s %d %d", usn, name, branch, &sem, &phno);
+    strcpy(temp->usn, usn);
+    strcpy(temp->name, name);
+    strcpy(temp->branch, branch);
+    temp->sem = sem;
+    temp->phno = phno;
+    temp->next = NULL;
+    count++;
+}
+void insert_atfirst()
+{
+    if (first == NULL)
+    {
+        create();
+        first = temp;
+        last = first;
+    }
+    else
+    {
+        create();
+        temp->next = first;
+        first = temp;
+    }
+}
+void insert_atlast()
+{
+    if (first == NULL)
+    {
+        create();
+        first = temp;
+        last = first;
+    }
+    else
+    {
+        create();
+        last->next = temp;
+        last = temp;
+    }
+}
+void display()
+{
+    temp1 = first;
+    if (temp1 == NULL)
+    {
+        printf("List empty to display \n");
+        return;
+    }
+    printf("\n Linked list elements from begining : \n");
+    while (temp1 != NULL)
+    {
+        printf("%s %s %s %d %d\n", temp1->usn, temp1->name, temp1->branch, temp1->sem, temp1->phno);
+        temp1 = temp1->next;
+    }
+    printf(" No of students = %d ", count);
+}
+int deleteend()
+{
+    struct node *temp;
+    temp = first;
+    if (temp->next == NULL)
+    {
+        free(temp);
+        first = NULL;
+    }
+    else
+    {
+        while (temp->next != last)
+            temp = temp->next;
+
+        printf("%s %s %s %d %d\n", last->usn, last->name, last->branch, last->sem, last->phno);
+        free(last);
+        temp->next = NULL;
+        last = temp;
+    }
+    count--;
+    return 0;
+}
+int deletefront()
+{
+    struct node *temp;
+    temp = first;
+    if (temp->next == NULL)
+    {
+        free(temp);
+        first = NULL;
+        return 0;
+    }
+    else
+    {
+        first = temp->next;
+        printf("%s %s %s %d %d", temp->usn, temp->name, temp->branch, temp->sem, temp->phno);
+        free(temp);
+    }
+    count--;
+    return 0;
+}
+void main()
+{
+    int ch, n, i;
+    first = NULL;
+    temp = temp1 = NULL;
+    printf("-----------------MENU----------------------\n");
+    printf("\n 1 create a SLL of n emp");
+    printf("\n 2 - Display from beginning");
+    printf("\n 3 - Insert at end");
+    printf("\n 4 - delete at end");
+    printf("\n 5 - Insert at beg");
+    printf("\n 6 - delete at beg");
+    printf("\n 7 - exit\n");
+    printf("-------------------------------------------\n");
+    while (1)
+    {
+        printf("\n Enter choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            printf("\n Enter no of students : ");
+            scanf("%d", &n);
+            for (i = 0; i < n; i++)
+                insert_atfirst();
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            insert_atlast();
+            break;
+        case 4:
+            deleteend();
+            break;
+        case 5:
+            insert_atfirst();
+            break;
+        case 6:
+            deletefront();
+            break;
+        case 7:
+            exit(0);
+        default:
+            printf("wrong choice\n");
+        }
+    }
+}
+
+
+
+
+
+DLL
+
+
+
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int count = 0;
+
+struct node
+{
+    struct node *prev;
+    int ssn, phno;
+    float sal;
+    char name[20], dept[10], desg[20];
+    struct node *next;
+} * h, *temp, *temp1, *temp2, *temp4;
+
+void create()
+{
+    int ssn, phno;
+    float sal;
+    char name[20], dept[10], desg[20];
+    temp = (struct node *)malloc(sizeof(struct node));
+    temp->prev = NULL;
+    temp->next = NULL;
+    printf("\n Enter ssn,name,department, designation, salary and phno of employee : ");
+    scanf("%d %s %s %s %f %d", &ssn, name, dept, desg, &sal, &phno);
+    temp->ssn = ssn;
+    strcpy(temp->name, name);
+    strcpy(temp->dept, dept);
+    strcpy(temp->desg, desg);
+    temp->sal = sal;
+    temp->phno = phno;
+    count++;
+}
+void insertbeg()
+{
+    if (h == NULL)
+    {
+        create();
+        h = temp;
+        temp1 = h;
+    }
+    else
+    {
+        create();
+        temp->next = h;
+        h->prev = temp;
+        h = temp;
+    }
+}
+
+void insertend()
+{
+    if (h == NULL)
+    {
+        create();
+        h = temp;
+        temp1 = h;
+    }
+    else
+    {
+        create();
+        temp1->next = temp;
+        temp->prev = temp1;
+        temp1 = temp;
+    }
+}
+void displaybeg()
+{
+    temp2 = h;
+    if (temp2 == NULL)
+    {
+        printf("List empty to display \n");
+        return;
+    }
+    printf("\n Linked list elements from begining : \n");
+    while (temp2 != NULL)
+    {
+        printf("%d %s %s %s %f %d\n", temp2->ssn, temp2->name, temp2->dept, temp2->desg, temp2->sal, temp2->phno);
+        temp2 = temp2->next;
+    }
+    printf(" No of employees = %d ", count);
+}
+int deleteend()
+{
+    struct node *temp;
+    temp = h;
+    if (temp->next == NULL)
+    {
+        free(temp);
+        h = NULL;
+        return 0;
+    }
+    else
+    {
+        temp2 = temp1->prev;
+        temp2->next = NULL;
+        printf("%d %s %s %s %f %d\n", temp1->ssn, temp1->name, temp1->dept, temp1->desg, temp1->sal, temp1->phno);
+        free(temp1);
+    }
+    count--;
+    return 0;
+}
+int deletebeg()
+{
+    struct node *temp;
+    temp = h;
+    if (temp->next == NULL)
+    {
+        free(temp);
+        h = NULL;
+    }
+    else
+    {
+        h = h->next;
+        printf("%d %s %s %s %f %d", temp->ssn, temp->name, temp->dept, temp->desg, temp->sal, temp->phno);
+        free(temp);
+    }
+    count--;
+    return 0;
+}
+void main()
+{
+    int ch, n, i;
+    h = NULL;
+    temp = temp1 = NULL;
+    printf("-----------------MENU--------------------\n");
+    printf("\n 1 - create a DLL of n emp");
+    printf("\n 2 - Display from beginning");
+    printf("\n 3 - Insert at end");
+    printf("\n 4 - delete at end");
+    printf("\n 5 - Insert at beg");
+    printf("\n 6 - delete at beg");
+    printf("\n 7 - exit\n");
+    printf("------------------------------------------\n");
+    while (1)
+    {
+        printf("\n Enter choice : ");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+        case 1:
+            printf("\n Enter no of employees : ");
+            scanf("%d", &n);
+            for (i = 0; i < n; i++)
+                insertend();
+            break;
+        case 2:
+            displaybeg();
+            break;
+        case 3:
+            insertend();
+            break;
+        case 4:
+            deleteend();
+            break;
+        case 5:
+            insertbeg();
+            break;
+        case 6:
+            deletebeg();
+            break;
+        case 7:
+            exit(0);
+        default:
+            printf("wrong choice\n");
+        }
+    }
+}
+
+
+
+
+Circulaly linked list
+
+
+
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct node
+{
+    int expo, coef;
+    struct node *next;
+} node;
+
+node *insert(node *, int, int);
+node *create();
+node *add(node *p1, node *p2);
+
+int eval(node *p1);
+void display(node *head);
+
+node *insert(node *head, int expo1, int coef1)
+{
+    node *p, *q;
+    p = (node *)malloc(sizeof(node));
+    p->expo = expo1;
+    p->coef = coef1;
+    p->next = NULL;
+    if (head == NULL)
+    {
+        head = p;
+        head->next = head;
+        return (head);
+    }
+    if (expo1 > head->expo)
+    {
+        p->next = head->next;
+        head->next = p;
+        head = p;
+        return (head);
+    }
+    if (expo1 == head->expo)
+    {
+        head->coef = head->coef + coef1;
+        return (head);
+    }
+    q = head;
+    while (q->next != head && expo1 >= q->next->expo)
+        q = q->next;
+    if (p->expo == q->expo)
+        q->coef = q->coef + coef1;
+    else
+    {
+        p->next = q->next;
+        q->next = p;
+    }
+    return (head);
+}
+
+node *create()
+{
+    int n, i, expo1, coef1;
+    node *head = NULL;
+    printf("\n\nEnter no of terms of polynomial==>");
+    scanf("%d", &n);
+    for (i = 0; i < n; i++)
+    {
+        printf("\n\nEnter coef & expo==>");
+        scanf("%d%d", &coef1, &expo1);
+        head = insert(head, expo1, coef1);
+    }
+    return (head);
+}
+
+node *add(node *p1, node *p2)
+{
+    node *p;
+    node *head = NULL;
+    printf("\n\n\nAddition of polynomial==>");
+    p = p1->next;
+    do
+    {
+        head = insert(head, p->expo, p->coef);
+        p = p->next;
+    } while (p != p1->next);
+    p = p2->next;
+    do
+    {
+        head = insert(head, p->expo, p->coef);
+        p = p->next;
+
+    } while (p != p2->next);
+    return (head);
+}
+
+int eval(node *head)
+{
+    node *p;
+    int x, ans = 0;
+    printf("\n\nEnter the value of x=");
+    scanf("%d", &x);
+    p = head->next;
+    do
+    {
+        ans = ans + p->coef * pow(x, p->expo);
+        p = p->next;
+    } while (p != head->next);
+    return (ans);
+}
+
+void display(node *head)
+{
+    node *p, *q;
+    int n = 0;
+    q = head->next;
+    p = head->next;
+    do
+    {
+        n++;
+        q = q->next;
+    } while (q != head->next);
+    printf("\n\n\tThe polynomial is==>");
+    do
+    {
+        if (n - 1)
+        {
+            printf("%dx^(%d) + ", p->coef, p->expo);
+            p = p->next;
+        }
+        else
+        {
+            printf(" %dx^(%d)", p->coef, p->expo);
+            p = p->next;
+        }
+        n--;
+    } while (p != head->next);
+}
+
+void main()
+{
+    int a, x, ch;
+    node *p1, *p2, *p3;
+    p1 = p2 = p3 = NULL;
+    while (1)
+    {
+        printf("\n\t----------------<< MENU >>---------------");
+        printf("\n\tPolynomial Operations :");
+        printf("\n\t\t\t\t1.Add");
+        printf("\n\t\t\t\t2.Evaluate");
+        printf("\n\t\t\t\t3.Exit");
+        printf("\n\t------------------------------------------- ");
+        printf("\n\n\n\tEnter your choice==>");
+        scanf("%d", &ch);
+        switch (ch)
+        {
+            
+        case 1:
+            p1 = create();
+            display(p1);
+            p2 = create();
+            display(p2);
+            p3 = add(p1, p2);
+            display(p3);
+            break;
+
+        case 2:
+            p1 = create();
+            display(p1);
+            a = eval(p1);
+            printf("\n\nValue of polynomial=%d", a);
+            break;
+
+        case 3:
+            exit(0);
+            break;
+        default:
+            printf("\n\n\tinvalid choice");
+            break;
+        }
+    }
+}
