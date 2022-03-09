@@ -1,0 +1,565 @@
+INFIX TO POSTFIX 
+
+#define SIZE 50  /* Size of Stack */
+#include <ctype.h>
+#include <stdio.h>
+
+char s[SIZE];
+
+int top = -1; /* Global declarations */
+
+push(char elem) /* Function for PUSH operation */
+
+{
+
+s[++top] = elem;
+
+}
+
+char pop() /* Function for POP operation */
+
+{
+
+return (s[top--]);
+
+}
+
+int pr(char elem) /* Function for precedence */
+
+{
+
+switch (elem)
+
+{
+
+case '#': return 0;
+
+case '(':  return 1;
+
+case '+':
+
+case '-': return 2;
+
+case '*':
+
+case '/':
+
+case '%': return 3;
+
+case '^': return 4;
+
+}
+
+}
+
+void main() /* Main Program */
+
+{
+
+char infx[50], pofx[50], ch, elem;
+int i = 0, k = 0;
+
+printf("\n\nRead the Infix Expression ? ");
+scanf("%s", infx);
+
+push('#');
+
+while ((ch = infx[i++]) != '\0')
+
+{
+
+if (ch == '(') push(ch);
+
+else if (isalnum(ch))
+
+pofx[k++] = ch;
+
+else if (ch == ')')
+
+{
+
+while (s[top] != '(')
+pofx[k++] = pop();
+
+elem = pop(); /* Remove ( */
+
+}
+
+else /* Operator */
+
+{
+
+while (pr(s[top]) >= pr(ch))
+
+pofx[k++] = pop();
+
+push(ch);
+
+}
+
+}
+
+while (s[top] != '#') /* Pop from stack till empty*/
+pofx[k++] = pop();
+
+pofx[k] = '\0'; /* Make pofx as valid string */
+
+printf("\n\nGiven Infix Expn: %s Postfix Expn: %s\n", infx, pofx);
+
+}
+
+
+
+
+STACK OPERATIONS 
+
+
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+#define max_size 5
+
+int stack[max_size],top=-1;
+
+void push();
+void pop();
+void display();
+void palindrome();
+
+int main() {
+
+int choice;
+
+while(choice) {
+
+// printf("\n");
+
+printf("\n\n-----STACK OPERATIONS-----\n");
+printf("1.push\n");
+printf("2.pop\n");
+printf("3.palindrome\n");
+printf("4.display\n");
+printf("5.exit\n");
+printf("-------");
+
+printf("\nEnter your choice:\t");
+scanf("%d",&choice);
+
+switch(choice)
+{
+case 1:push();
+	break;
+case 2:pop();
+	break;
+case 3:palindrome();
+	break;
+case 4:display();
+	break;
+case 5:exit(0);
+	break;
+default: printf("\nInvalid choice\n");
+	break;
+	}
+}
+return 0;
+}
+
+void push () {
+
+int item, n;
+
+if (top == (max_size-1)) {
+printf("\nStack Overflow:");
+} else {
+printf("Enter the element to be inserted:/t");
+scanf("%d", &item);
+
+top = top + 1;
+stack[top] = item;
+}
+
+}
+
+void pop () {
+
+int item;
+
+if (top == -1) {
+printf("Stack Underflow:");
+} else {
+item = stack[top];
+top = top - 1;
+printf("\nThe poped element %d\t", item);
+}
+}
+
+void palindrome () {
+
+int digit, j, k, len = top + 1, flag = 0, ind = 0;
+int num[len], rev[len], i=0;
+
+while(top!=-1) {
+digit = stack[top];
+num[i]=digit;
+top--;
+i++;
+}
+
+for (j = 0; j<len; j++) {
+printf("Numbers = %d\n", num[j]);
+}
+
+printf("reverse operation:\n");
+
+for (k=len-1; k>=0; k--) {
+rev[k] = num[ind];
+ind++;
+}
+
+printf("reverse array:");
+
+for (k=0; k<len; k++) {
+printf("%d\n", rev[k]);
+}
+
+printf("check for palindrome :\n");
+int length = 0;
+
+for (i=0; i<len; i++) {
+if (num[i]==rev[i]) {
+length = length + 1;
+}
+}
+
+if (length==len) {
+printf("It is palindrome number\n");
+} else {
+printf("It is not a palindrome number\n");
+}
+
+top = len-1;
+
+}
+
+void display() {
+
+int i;
+
+if (top==-1) {
+printf("\nStack is Empty:");
+} else {
+printf("\nThe stack elements are:\n");
+
+for (i=top; i>=0; i--) {
+printf("%d", stack[i]);
+}
+
+}
+
+}
+
+
+
+
+
+
+
+
+ARRAY OPERATIONS 
+
+
+
+#include<stdio.h>
+#include<stdlib.h>
+int a[20];
+int n,val,i,pos;
+
+void create();
+void display();
+void insert();
+void delete();
+
+int main() {
+
+int choice;
+while(choice)
+{
+printf("\n\n-----MENU-----\n");
+printf("1.CREATE\n");
+printf("2.DISPLAY\n");
+printf("3.INSERT\n");
+printf("4.DELETE\n");
+printf("5.EXIT\n");
+printf("-------");
+printf("\nENTER YOUR CHOICE:\t");
+scanf("%d",&choice);
+
+switch(choice) {
+case 1: create();
+	break;
+case 2: display();
+	break;
+case 3: insert();
+	break;
+case 4: delete();
+	break;
+case 5: exit(0);
+	break;
+default:
+	printf("\ninvalid choice\n");
+	break;
+    }
+}
+
+return 0;
+
+}
+
+void create() {
+printf("\nEnter the size of the array elements:\t");
+scanf("%d",&n);
+printf("\nEnter the elements for the array:\n");
+for (i=0;i<n;i++) {
+scanf("%d",&a[i]);
+}
+}
+
+void display() {
+int i;
+printf("The array elements are:\n");
+for(i=0;i<n;i++) {
+printf("%d\t",a[i]);
+}
+}
+
+void insert() {
+printf("\nEnter the position for the new element:\t");
+scanf("%d",&pos);
+printf("\nEnter the element to be inserted:\t");
+scanf("%d",&val);
+for(i=n-1;i>=pos;i--) {
+a[i+1]=a[i];
+}
+a[pos]=val;
+n=n+1;
+}
+
+void delete() {
+printf("\nEnter the position of the element to be deleted:\t");
+scanf("%d",&pos);
+val=a[pos];
+for(i=pos;i<n-1;i++) {
+a[i]=a[i+1];
+}
+n=n-1;
+printf("\nThe deleted element is=%d",val);
+}
+
+
+
+
+
+
+
+POSFTIX EVALUATION 
+
+
+
+
+
+
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+#include<math.h>
+
+void push (int);
+int pop();
+
+int ch, s[25] = {0}, top = -1;
+
+void main() {
+    
+    char postfix[25] = {'\0'}, ele;
+    int i, num1, num2, ans;
+    printf("\n Enter the postfix expression");
+    scanf("%s", postfix);
+    printf("\n The postfix expression is %s", postfix);
+    
+    i=0;
+    while (i <= strlen(postfix) - 1) {
+        ele = postfix[i];
+        if (isdigit(ele)) {
+            push(ele - '0');
+        } else {
+            num1=pop();
+            num2=pop();
+            switch (ele) {
+                case '^':
+                ans = pow(num2,num1);
+                 break;
+                case '/':
+                ans = num2/num1;
+                 break;
+                case '*' :
+                ans = num2*num1;
+                 break;
+                case '+':
+                ans = num2+num1;
+                 break;
+                case '-':
+                ans = num2-num1;
+                 break;
+                
+            }
+            
+            push(ans);
+        }
+        
+        i++;
+        
+    }
+    
+    printf("\n ans = %d", pop());
+}
+
+void push(int ele) {
+    
+    if (top==24)
+    printf("\n Stack is full");
+    else {
+        top++;
+        s[top] =ele;
+        }
+    
+}
+
+int pop () {
+    
+    if (top==-1) 
+    printf("\n Stack is empty");
+    else {
+        ch = s[top];
+        top--;
+    }
+    
+    return ch;
+    
+}
+
+
+
+
+
+TOWER OF HANOI 
+
+
+
+
+
+#include<stdio.h>
+
+void towerOfHanoi (int, char, char, char);
+
+void main () {
+    
+    int num;
+    
+    printf("Enter the number of disks \n");
+    scanf("%d", &num);
+    
+    printf("The sequence of movement of disks involved in the tower of hanoi are : \n");
+    towerOfHanoi (num, 'A', 'B', 'C');
+    
+}
+
+void towerOfHanoi (int n, char fromTower, char toTower, char auxTower) {
+    if (n==1)
+    printf("\n move disk 1 from %c to %c", fromTower, toTower );
+    else {
+        towerOfHanoi(n-1, fromTower, auxTower, toTower);
+        printf("\n move disk %d from %c to %c", n, fromTower, toTower);
+        towerOfHanoi(n-1, auxTower, toTower, fromTower);
+    }
+}
+
+
+
+
+
+
+
+CIRCULAR QUEUE 
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#define max 5
+int q[max],f=-1,r=-1;
+void ins()
+{
+    if(f==(r+1)%max)
+        printf("\nQueue overflow");
+    else
+    {
+        if(f==-1)
+            f++;
+        r=(r+1)%max;
+        printf("\nEnter element to be inserted:");
+        scanf("%d",&q[r]);
+    }
+}
+void del()
+{
+    if(r==-1)
+        printf("\nQueue underflow");
+    else
+    {
+        printf("\nElemnt deleted is:%d",q[f]);
+        if(f==r)
+            f=r=-1;
+        else
+            f=(f+1)%max;
+    }
+}
+void disp()
+{
+    if(f==-1)
+        printf("\nQueue empty");
+    else
+    {
+        int i;
+        printf("\nQueue elements are:\n");
+        for(i=f;i!=r;i=(i+1)%max)
+            printf("%d\t",q[i]);
+        printf("%d",q[i]);
+        printf("\nFront is at:%d\nRear is at:%d",q[f],q[r]);
+    }
+}
+int main()
+{
+    printf("\nCircular Queue operations");
+    printf("\n1.Insert");
+    printf("\n2.Delete");
+    printf("\n3.Display");
+    printf("\n4.Exit");
+    int ch;
+    do{
+        printf("\nEnter choice:");
+        scanf("%d",&ch);
+        switch(ch)
+        {
+            case 1:ins();break;
+            case 2:del();break;
+            case 3:disp();break;
+            case 4:exit(0);
+            default:printf("\nInvalid choice...!");
+        }
+   }while(1);
+    return 0;
+
+}
